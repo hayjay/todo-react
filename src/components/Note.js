@@ -9,7 +9,13 @@ class Note extends Component {
     };
   };
 
-  
+  componentDidMount(){
+    fetch('http://localhost:4000/tasks').then(results => {
+      return results.json();
+    });
+  }
+
+
   render() {
     return (
       <div className="note" onClick={this.props.deleteMethod}>
