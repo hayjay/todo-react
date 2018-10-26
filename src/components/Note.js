@@ -10,10 +10,16 @@ class Note extends Component {
   };
 
   componentDidMount(){
-    fetch('http://localhost:4000/tasks').then(results => {
-          return results.json();
-        })
+    console.log('dd');
+    fetch(`http://localhost:4000/tasks`)
+    .then((resp) => resp.json())
+    // .then(results => {
+    //     console.log(results.json());
+
+    //       return results.json();
+    //     })
         .then(data => {
+          console.log(data);
           let notes = data.results.map((each_note) => {
             return (
               <div className="note" key={each_note.results} onClick={this.props.deleteMethod}>
@@ -24,6 +30,8 @@ class Note extends Component {
           //set or update the state (calling this.setState) after pulling notes from the api
           this.setState({notes : notes});
           console.log("todos", this.state.notes)
+        }).catch((reject) => {
+          console.log(reject);
         });
   }
 

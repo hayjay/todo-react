@@ -5,13 +5,38 @@ import './App.css';
 
 class App extends Component {
 
-  constructor (props) {
-    super(props);
+  constructor () {
+    super();
 
     this.state = {
       noteText : '',
       notes : [] //holds array of each note we want to create
     }
+  }
+
+  componentDidMount(){
+    fetch(`https://s3-us-west-2.amazonaws.com/s.cdpn.io/3/posts.json`)
+    .then((resp) => resp.json())
+    // .then(results => {
+    //     console.log(results.json());
+
+    //       return results.json();
+    //     })
+        .then(data => {
+          console.log(data)
+          let notes = data.results.map((each_note) => {
+            return (
+              <div className="note" key={each_note.results} onClick={this.props.deleteMethod}>
+                {each_note.results.name}
+              </div>
+            )
+          });
+          //set or update the state (calling this.setState) after pulling notes from the api
+          this.setState({notes : notes});
+          console.log("todos", this.state.notes)
+        }).catch((reject) => {
+          console.log(reject);
+        });
   }
 
   updateNoteText(noteText){
@@ -46,7 +71,6 @@ class App extends Component {
   }
   render() {
     let notes = this.state.notes.map((val, key) => {
-      console.log(key);
       return <Note key={key} text={val} deleteMethod={ () => this.deleteNote(key) }/>
     });
 
