@@ -8,19 +8,15 @@ class Note extends Component {
       notes : []
     };
   };
+  
 
   componentDidMount(){
-    console.log('dd');
     fetch(`http://localhost:4000/tasks`)
     .then((resp) => resp.json())
-    // .then(results => {
-    //     console.log(results.json());
-
-    //       return results.json();
-    //     })
         .then(data => {
           console.log(data);
-          let notes = data.results.map((each_note) => {
+          let notes = data.map((each_note) => {
+            // console.log(each_note)
             return (
               <div className="note" key={each_note.results} onClick={this.props.deleteMethod}>
                 {each_note.results.name}
@@ -31,7 +27,7 @@ class Note extends Component {
           this.setState({notes : notes});
           console.log("todos", this.state.notes)
         }).catch((reject) => {
-          console.log(reject);
+          // console.log(reject);
         });
   }
 
@@ -41,7 +37,7 @@ class Note extends Component {
       <div className="note" onClick={this.props.deleteMethod}>
         {/* //render the pulled data (from api) to the page/view */ }
         {/* below, we can call this.state.pictures because we have updated the state using this.setState in the componentDidMount function */}
-        {this.state.pictures}
+        {this.state.notes}
       </div>
     );
   }
