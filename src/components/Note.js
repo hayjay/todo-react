@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 
 class Note extends Component {
-  constructor () {
-    super();
+  constructor (props) {
+    super(props);
 
     this.state = { //set component initial state
       notes : []
@@ -14,12 +14,11 @@ class Note extends Component {
     fetch(`http://localhost:4000/tasks`)
     .then((resp) => resp.json())
         .then(data => {
-          console.log(data);
+          // console.log(data);
           let notes = data.map((each_note) => {
-            // console.log(each_note)
             return (
-              <div className="note" key={each_note.results} onClick={this.props.deleteMethod}>
-                {each_note.results.name}
+              <div className="note" key={each_note.id} onClick={this.props.deleteMethod}>
+                {each_note.name}
               </div>
             )
           });
@@ -33,6 +32,7 @@ class Note extends Component {
 
 
   render() {
+    // console.log(notes);
     return (
       <div className="note" onClick={this.props.deleteMethod}>
         {/* //render the pulled data (from api) to the page/view */ }

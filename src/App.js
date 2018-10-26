@@ -10,7 +10,7 @@ class App extends Component {
 
     this.state = {
       noteText : '',
-      notes : [] //holds array of each note we want to create
+      notes : this.state //holds array of each note we want to create
     }
   }
 
@@ -45,17 +45,19 @@ class App extends Component {
     this.setState({ notes : notesArr }); 
   }
   render() {
-    let notes = this.state.notes.map((val, key) => {
+
+    // let notes = this.state.notes.map((val, key) => {
+      let notes =  <Note/>;
       // return <Note key={key} text={val} deleteMethod={ () => this.deleteNote(key) }/>
-    });
+    // });
     
-    return <Note  />
+    // return 
 
 
     return (
       <div className="container">
         <div className="header">
-          Todo
+          Todo ad
         </div>
         {notes}
         <div className="btn" onClick={ this.addNote.bind(this) }>
