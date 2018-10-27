@@ -10,7 +10,8 @@ class App extends Component {
 
     this.state = {
       noteText : '',
-      notes : this.state //holds array of each note we want to create
+      notes : [], //holds array of each note we want to create,
+      singleNote : ''
     }
   }
 
@@ -23,7 +24,7 @@ class App extends Component {
 
   handleKeyPress = (event) => { //pass event as the argument
     if(event.key === 'Enter'){
-      this.addNote();
+      this.handleSubmit(event);
     }
   }
   addNote(){
@@ -44,30 +45,41 @@ class App extends Component {
     //update note array with the new array set after deleting
     this.setState({ notes : notesArr }); 
   }
+  handleSubmit(e){
+    e.preventDefault();
+    console.log(this.state.noteText+" note");
+    // event.preventDefault();
+    const url = 'http://localhost:4000/tasks';
+    let res = fetch('http://localhost:4000/tasks', {
+      method: 'post',
+      headers: {
+        'Content-Type':'application/json',
+      },
+      body: JSON.stringify({ "name" : this.state.noteText})
+     });
+     console.log(res);
+  }
   render() {
 
-    // let notes = this.state.notes.map((val, key) => {
-      let notes =  <Note/>;
-      // return <Note key={key} text={val} deleteMethod={ () => this.deleteNote(key) }/>
-    // });
+    let notes = <Note />
     
-    // return 
-
-
     return (
       <div className="container">
         <div className="header">
-          Todo ad
+          Daily Todo 
         </div>
         {notes}
-        <div className="btn" onClick={ this.addNote.bind(this) }>
+        
+        <form onSubmit={ this.handleSubmit }>
+        <div className="btn" onClick={ this.handleSubmit.bind(this) }>
           +
         </div>
-        <input type="text" ref={ ((input) => {this.textInput = input} )}
-         className="textInput" value={this.state.noteText}
-          onChange={noteText => this.updateNoteText(noteText)}
-          onKeyPress={this.handleKeyPress.bind(this)}
-          /> 
+          <input  name="text" id="todo_text" type="text" ref={ ((input) => {this.textInput = input} )}
+          className="textInput" value={this.state.noteText}
+            onChange={noteText => this.updateNoteText(noteText)}
+            onKeyPress={this.handleKeyPress.bind(this)}
+            /> 
+        </form>
       </div>
     );
   }

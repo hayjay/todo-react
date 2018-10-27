@@ -5,19 +5,25 @@ class Note extends Component {
     super(props);
 
     this.state = { //set component initial state
-      notes : []
+      notes : [],
+      //set loader/spinner
+      isLoading : false
     };
   };
   
 
+  //Remember : the render method is always runned by the compiler --
+  //before the componentDidMount() method will run
   componentDidMount(){
     fetch(`http://localhost:4000/tasks`)
+    //fetch is a promise so we can go ahead and append a .then call behind it
     .then((resp) => resp.json())
+        //when the data is successfully fetched appened another .then call to use the fetched data
         .then(data => {
           // console.log(data);
           let notes = data.map((each_note) => {
             return (
-              <div className="note" key={each_note.id} onClick={this.props.deleteMethod}>
+              <div className="note" key={each_note._id} onClick={this.props.deleteMethod}>
                 {each_note.name}
               </div>
             )
