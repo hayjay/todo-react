@@ -50,14 +50,22 @@ class App extends Component {
     console.log(this.state.noteText+" note");
     // event.preventDefault();
     const url = 'http://localhost:4000/tasks';
-    let res = fetch('http://localhost:4000/tasks', {
-      method: 'post',
+    fetch('http://localhost:4000/tasks', {
+      method: "POST",
       headers: {
-        'Content-Type':'application/json',
+        "Content-Type": "application/json; charset=utf-8",
+        "Accept": "application/json"
+        // "Content-Type": "application/x-www-form-urlencoded",
       },
       body: JSON.stringify({ "name" : this.state.noteText})
+     })
+     .then(res => res.json()) //
+     .then(response => {
+       console.log('Success', JSON.stringify(response))
+     })
+     .catch((reject) => {
+       console.log('Something went wrong!');
      });
-     console.log(res);
   }
   render() {
 

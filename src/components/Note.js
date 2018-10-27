@@ -10,11 +10,13 @@ class Note extends Component {
       isLoading : false
     };
   };
-  
 
   //Remember : the render method is always runned by the compiler --
   //before the componentDidMount() method will run
+
   componentDidMount(){
+    //while mounting/pulling data from api : enable the spinner/loader below
+    this.setState({ isLoading : true }); 
     fetch(`http://localhost:4000/tasks`)
     //fetch is a promise so we can go ahead and append a .then call behind it
     .then((resp) => resp.json())
@@ -29,7 +31,8 @@ class Note extends Component {
             )
           });
           //set or update the state (calling this.setState) after pulling notes from the api
-          this.setState({notes : notes});
+          //set or update state to false after notes/todos has been pulled successfully
+          this.setState({notes : notes, isLoading : false});
           console.log("todos", this.state.notes)
         }).catch((reject) => {
           // console.log(reject);
@@ -38,7 +41,20 @@ class Note extends Component {
 
 
   render() {
-    // console.log(notes);
+
+    const loaderStyle = {
+      color : '#222',
+      marginTop: '20px'
+    };
+
+    const f_w = {
+      fontWeight : 'bold',
+    }
+
+    //display a loading p tag if page is still loading trying to fetch data
+    if( this.state.isLoading ){
+      return <center><p style={loaderStyle}>Loading todo list! Please wait <span style={f_w}>...</span></p></center>;
+    }
     return (
       <div className="note" onClick={this.props.deleteMethod}>
         {/* //render the pulled data (from api) to the page/view */ }
