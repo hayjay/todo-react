@@ -45,6 +45,7 @@ class App extends Component {
     //update note array with the new array set after deleting
     this.setState({ notes : notesArr }); 
   }
+  
   handleSubmit(e){
     e.preventDefault();
     console.log(this.state.noteText+" note");

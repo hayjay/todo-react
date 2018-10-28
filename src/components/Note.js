@@ -54,6 +54,7 @@ class Note extends Component {
     //display a loading p tag if page is still loading trying to fetch data
     if( this.state.isLoading ){
       return <center><p style={loaderStyle}>Loading todo list! Please wait <span style={f_w}>...</span></p></center>;
+      
     }
     return (
       <div className="note" onClick={this.props.deleteMethod}>
