@@ -6,8 +6,11 @@
     "cors": "^2.8.4",
     "react": "^16.5.2",
     "react-alert": "^4.0.4",
+    "react-alert-template-basic": "^1.0.0",
     "react-dom": "^16.5.2",
-    "react-scripts": "2.0.5"
+    "react-notifications": "^1.4.3",
+    "react-scripts": "2.0.5",
+    "react-transition-group": "^2.5.0"
   },
   "scripts": {
     "start": "react-scripts start",
