@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import Note from './components/Note'; //import Note component
 import logo from './logo.svg';
+import Alert from './components/Alert'; //import Note component
+
 import './App.css';
-import {NotificationContainer, NotificationManager} from 'react-notifications';
 class App extends Component {
 
   constructor () {
@@ -80,7 +81,7 @@ class App extends Component {
         {notes}
         
         <form onSubmit={ this.handleSubmit }>
-        <div className="btn" onClick={  }>
+        <div className="btn" onClick={ this.handleSubmit.bind(this) }>
           +
         </div>
           <input  name="text" id="todo_text" type="text" ref={ ((input) => {this.textInput = input} )}

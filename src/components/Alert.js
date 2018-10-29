@@ -1,7 +1,10 @@
 import React, { Component } from 'react'
+import {NotificationContainer, NotificationManager} from 'react-notifications';
 
- 
 class Alert extends React.Component {
+    constructor (props) {
+        super(props);
+    }
     createNotification = (type) => {
       return () => {
         switch (type) {
