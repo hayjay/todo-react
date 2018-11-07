@@ -34,11 +34,11 @@ class App extends Component {
     let notesArr = this.state.notes;
 
     notesArr.push(this.state.noteText);
-    console.log(notesArr);
+    // console.log(notesArr);
     //reset the state of the note textbox to empty after it has been added
     this.setState({noteText : ''});
     this.textInput.focus(); //set the mouse focus on the textbox after it has been added
-
+    
   }
   deleteNote(index){
     let notesArr = this.state.notes;
@@ -49,7 +49,6 @@ class App extends Component {
   
   handleSubmit(e){
     e.preventDefault();
-    console.log(this.state.noteText+" note");
     // event.preventDefault();
     const url = 'http://localhost:4000/tasks';
     fetch('http://localhost:4000/tasks', {
@@ -63,7 +62,10 @@ class App extends Component {
      })
      .then(res => res.json()) //
      .then(response => {
-       console.log('Success', JSON.stringify(response))
+      //  console.log('Success', JSON.stringify(response))
+      // this.state.notes.push(JSON.stringify(response));
+       this.setState({notes : JSON.stringify(response)});
+      //  console.log(b);
      })
      .catch((reject) => {
        console.log('Something went wrong!');
@@ -72,12 +74,13 @@ class App extends Component {
   render() {
 
     let notes = <Note />
-    
+
     return (
       <div className="container">
         <div className="header">
           Daily Todo 
         </div>
+
         {notes}
         
         <form onSubmit={ this.handleSubmit }>

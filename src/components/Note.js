@@ -14,9 +14,7 @@ class Note extends Component {
   //Remember : the render method is always runned by the compiler --
   //before the componentDidMount() method will run
 
-  componentDidMount(){
-    //while mounting/pulling data from api : enable the spinner/loader below
-    this.setState({ isLoading : true }); 
+  fetchTodos(){
     fetch(`http://localhost:4000/tasks`)
     //fetch is a promise so we can go ahead and append a .then call behind it
     .then((resp) => resp.json())
@@ -37,6 +35,12 @@ class Note extends Component {
         }).catch((reject) => {
           // console.log(reject);
         });
+  }
+
+  componentDidMount(){
+    //while mounting/pulling data from api : enable the spinner/loader below
+    this.setState({ isLoading : true }); 
+    setInterval( () => this.fetchTodos(), 1000);
   }
 
 

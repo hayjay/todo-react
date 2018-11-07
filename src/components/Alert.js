@@ -25,6 +25,7 @@ class Alert extends React.Component {
         }
       };
     };
+    //
 
     render() {
         return (
@@ -44,7 +45,7 @@ class Alert extends React.Component {
             <button className='btn btn-danger'
             onClick={this.createNotification('error')}>Error
             </button>
-    
+            
             <NotificationContainer/>
         </div>
         );
