@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import Note from './components/Note'; //import Note component
 import logo from './logo.svg';
 import Alert from './components/Alert'; //import Note component
-
 import './App.css';
-class App extends Component {
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
+class App extends Component {
   constructor () {
     super();
 
@@ -49,34 +50,38 @@ class App extends Component {
   
   handleSubmit(e){
     e.preventDefault();
-    // event.preventDefault();
-    const url = 'http://localhost:4000/tasks';
-    fetch('http://localhost:4000/tasks', {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json; charset=utf-8",
-        "Accept": "application/json"
-        // "Content-Type": "application/x-www-form-urlencoded",
-      },
-      body: JSON.stringify({ "name" : this.state.noteText})
-     })
-     .then(res => res.json()) //
-     .then(response => {
-      //  console.log('Success', JSON.stringify(response))
-      // this.state.notes.push(JSON.stringify(response));
-       this.setState({notes : JSON.stringify(response)});
-      //  console.log(b);
-     })
-     .catch((reject) => {
-       console.log('Something went wrong!');
-     });
+    if(this.state.noteText === ''){
+      this.handleClick();
+    }else{
+      const url = 'http://localhost:4000/tasks';
+      fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json; charset=utf-8",
+          "Accept": "application/json"
+        },
+        body: JSON.stringify({ "name" : this.state.noteText})
+      })
+      .then(res => res.json()) //
+      .then(response => {
+        //  console.log('Success', JSON.stringify(response))
+        // this.state.notes.push(JSON.stringify(response));
+        this.setState({notes : JSON.stringify(response)});
+        //  console.log(b);
+      })
+      .catch((reject) => {
+        console.log('Something went wrong!');
+      });
+    }
   }
   render() {
 
-    let notes = <Note />
+    let notes = <Note />;
 
     return (
+
       <div className="container">
+
         <div className="header">
           Daily Todo 
         </div>
@@ -85,6 +90,7 @@ class App extends Component {
         
         <form onSubmit={ this.handleSubmit }>
         <div className="btn" onClick={ this.handleSubmit.bind(this) }>
+        
           +
         </div>
           <input  name="text" id="todo_text" type="text" ref={ ((input) => {this.textInput = input} )}

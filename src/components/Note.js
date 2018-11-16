@@ -20,7 +20,6 @@ class Note extends Component {
     .then((resp) => resp.json())
         //when the data is successfully fetched appened another .then call to use the fetched data
         .then(data => {
-          // console.log(data);
           let notes = data.map((each_note) => {
             return (
               <div className="note" key={each_note._id} onClick={this.props.deleteMethod}>

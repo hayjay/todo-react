@@ -9,7 +9,9 @@
     "react-alert-template-basic": "^1.0.0",
     "react-dom": "^16.5.2",
     "react-notifications": "^1.4.3",
+    "react-router-dom": "^4.3.1",
     "react-scripts": "2.0.5",
+    "react-toastify": "^4.4.3",
     "react-transition-group": "^2.5.0"
   },
   "scripts": {
