@@ -5,6 +5,9 @@ import Alert from './components/Alert'; //import Note component
 import './App.css';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import {BrowserRouter, Route} from 'react-router-dom';
+import Home from './components/Home';
+
 
 class App extends Component {
   constructor () {
@@ -79,27 +82,33 @@ class App extends Component {
     let notes = <Note />;
 
     return (
-
-      <div className="container">
-
-        <div className="header">
-          Daily Todo 
-        </div>
-
-        {notes}
+      <div className="App">
+        <BrowserRouter>
         
-        <form onSubmit={ this.handleSubmit }>
-        <div className="btn" onClick={ this.handleSubmit.bind(this) }>
-        
-          +
-        </div>
-          <input  name="text" id="todo_text" type="text" ref={ ((input) => {this.textInput = input} )}
-          className="textInput" value={this.state.noteText}
-            onChange={noteText => this.updateNoteText(noteText)}
-            onKeyPress={this.handleKeyPress.bind(this)}
-            /> 
-        </form>
+          <Route path="/todos" Component={Note}/>
+          <Route path="/" Component={Home}/>
+        </BrowserRouter>
       </div>
+      // <div className="container">
+      //   <div className="header">
+      //     Daily Todo 
+      //   </div>
+
+      //   {notes}
+        
+      //   <form onSubmit={ this.handleSubmit }>
+      //   <div className="btn" onClick={ this.handleSubmit.bind(this) }>
+        
+      //     +
+      //   </div>
+      //     <input  name="text" id="todo_text" type="text" ref={ ((input) => {this.textInput = input} )}
+      //     className="textInput" value={this.state.noteText}
+      //       onChange={noteText => this.updateNoteText(noteText)}
+      //       onKeyPress={this.handleKeyPress.bind(this)}
+      //       /> 
+      //   </form>
+      // </div>
+      
     );
   }
 }
