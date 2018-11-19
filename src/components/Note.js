@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
-
+import logo from '../logo.svg';
+import '../App.css';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 class Note extends Component {
+  
   constructor (props) {
     super(props);
-    
 
     this.state = { //set component initial state
       notes : [],
@@ -14,6 +17,65 @@ class Note extends Component {
 
   //Remember : the render method is always runned by the compiler --
   //before the componentDidMount() method will run
+  handleSubmit(e){
+    e.preventDefault();
+    if(this.state.noteText === ''){
+      this.handleClick();
+    }else{
+      const url = 'http://localhost:4000/tasks';
+      fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json; charset=utf-8",
+          "Accept": "application/json"
+        },
+        body: JSON.stringify({ "name" : this.state.noteText})
+      })
+      .then(res => res.json()) //
+      .then(response => {
+        //  console.log('Success', JSON.stringify(response))
+        // this.state.notes.push(JSON.stringify(response));
+        this.setState({notes : JSON.stringify(response)});
+        //  console.log(b);
+      })
+      .catch((reject) => {
+        console.log('Something went wrong!');
+      });
+    }
+  }
+
+  handleKeyPress = (event) => { //pass event as the argument
+    if(event.key === 'Enter'){
+      this.handleSubmit(event);
+    }
+  }
+
+  updateNoteText(noteText){
+    //update the notetext as its changes
+    this.setState({
+      noteText : noteText.target.value //get the value of the textbox
+    });
+  }
+
+  
+  addNote(){
+    // console.log(this.state.noteText);
+    if(this.state.noteText === ''){return}
+    let notesArr = this.state.notes;
+
+    notesArr.push(this.state.noteText);
+    // console.log(notesArr);
+    //reset the state of the note textbox to empty after it has been added
+    this.setState({noteText : ''});
+    this.textInput.focus(); //set the mouse focus on the textbox after it has been added
+    
+  }
+  deleteNote(index){
+    let notesArr = this.state.notes;
+    notesArr.splice(index, 1); //remove the note from the note array
+    //update note array with the new array set after deleting
+    this.setState({ notes : notesArr }); 
+  }
 
   fetchTodos(){
     fetch(`http://localhost:4000/tasks`)
@@ -31,7 +93,6 @@ class Note extends Component {
           //set or update the state (calling this.setState) after pulling notes from the api
           //set or update state to false after notes/todos has been pulled successfully
           this.setState({notes : notes, isLoading : false});
-          console.log("todos", this.state.notes)
         }).catch((reject) => {
           // console.log(reject);
         });
@@ -45,6 +106,7 @@ class Note extends Component {
 
 
   render() {
+    let notes = this.state.notes;
 
     const loaderStyle = {
       color : '#222',
@@ -61,10 +123,25 @@ class Note extends Component {
       
     }
     return (
-      <div className="note" onClick={this.props.deleteMethod}>
-        {/* //render the pulled data (from api) to the page/view */ }
-        {/* below, we can call this.state.pictures because we have updated the state using this.setState in the componentDidMount function */}
-        {this.state.notes}
+      
+      <div className="container">
+        <div className="header">
+          Daily Todo 
+        </div>
+
+        {notes}
+        
+        <form onSubmit={ this.handleSubmit }>
+        <div className="btn" onClick={ this.handleSubmit.bind(this) }>
+        
+          +
+        </div>
+          <input  name="text" id="todo_text" type="text" ref={ ((input) => {this.textInput = input} )}
+          className="textInput" value={this.state.noteText}
+            onChange={noteText => this.updateNoteText(noteText)}
+            onKeyPress={this.handleKeyPress.bind(this)}
+            /> 
+        </form>
       </div>
     );
   }
