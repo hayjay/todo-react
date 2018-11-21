@@ -83,13 +83,15 @@ class Note extends Component {
     .then((resp) => resp.json())
         //when the data is successfully fetched appened another .then call to use the fetched data
         .then(data => {
+          let count = 1
           let notes = data.map((each_note) => {
             return (
               <div className="note" key={each_note._id} onClick={this.props.deleteMethod}>
-                {each_note.name}
+            <span className="primary">{count++}) </span> {each_note.name}
               </div>
             )
           });
+          
           //set or update the state (calling this.setState) after pulling notes from the api
           //set or update state to false after notes/todos has been pulled successfully
           this.setState({notes : notes, isLoading : false});
@@ -116,6 +118,10 @@ class Note extends Component {
     const f_w = {
       fontWeight : 'bold',
     }
+    const title = {
+      backgroundColor : 'white',
+      padding : '40px'
+    }
 
     //display a loading p tag if page is still loading trying to fetch data
     if( this.state.isLoading ){
@@ -125,9 +131,6 @@ class Note extends Component {
     return (
       
       <div className="container">
-        <div className="header">
-          Daily Todo 
-        </div>
 
         {notes}
         
