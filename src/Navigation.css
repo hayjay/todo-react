@@ -29,9 +29,9 @@
   /* The note */
   .note_nav {
     color: #adadad;
-    padding: 40px;
+    padding:40px;
     margin: 20px;
-    position: fixed;
+    position: fixed absolute;
     width: 100%;
     background: rgba(184, 179, 179, 0.61);
     border: solid 1px #e9e9e9;
