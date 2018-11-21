@@ -5,7 +5,7 @@ import '../Navigation.css'
 const Navigation = () => {
    return (
         <div className="note_nav">
-            <NavLink to="/" className="note primary">Home </NavLink>
+            <NavLink to="/" className="note red">Home </NavLink>
             <NavLink to="/todos" className="sub_note">All Todo Lists</NavLink>
 
             <div className="nav-links">

@@ -139,7 +139,7 @@ class Note extends Component {
         
           +
         </div>
-          <input  name="text" id="todo_text" type="text" ref={ ((input) => {this.textInput = input} )}
+          <input  name="text" placeholder="Please type here.." id="todo_text" type="text" ref={ ((input) => {this.textInput = input} )}
           className="textInput" value={this.state.noteText}
             onChange={noteText => this.updateNoteText(noteText)}
             onKeyPress={this.handleKeyPress.bind(this)}
