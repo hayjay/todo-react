@@ -11,9 +11,23 @@ class Note extends Component {
     this.state = { //set component initial state
       notes : [],
       //set loader/spinner
-      isLoading : false
+      isLoading : false,
+      method: "POST",
     };
   };
+
+  addNote(){
+    // console.log(this.state.noteText);
+    if(this.state.noteText === ''){return}
+    let notesArr = this.state.notes;
+
+    notesArr.push(this.state.noteText);
+    // console.log(notesArr);
+    //reset the state of the note textbox to empty after it has been added
+    this.setState({noteText : ''});
+    this.textInput.focus(); //set the mouse focus on the textbox after it has been added
+    
+  }
 
   //Remember : the render method is always runned by the compiler --
   //before the componentDidMount() method will run
@@ -24,7 +38,7 @@ class Note extends Component {
     }else{
       const url = 'http://localhost:4000/tasks';
       fetch(url, {
-        method: "POST",
+        method : this.state.method,
         headers: {
           "Content-Type": "application/json; charset=utf-8",
           "Accept": "application/json"
@@ -39,7 +53,7 @@ class Note extends Component {
         //  console.log(b);
       })
       .catch((reject) => {
-        console.log('Something went wrong!');
+        console.log('Something went wrong! '+ reject);
       });
     }
   }
@@ -57,19 +71,6 @@ class Note extends Component {
     });
   }
 
-  
-  addNote(){
-    // console.log(this.state.noteText);
-    if(this.state.noteText === ''){return}
-    let notesArr = this.state.notes;
-
-    notesArr.push(this.state.noteText);
-    // console.log(notesArr);
-    //reset the state of the note textbox to empty after it has been added
-    this.setState({noteText : ''});
-    this.textInput.focus(); //set the mouse focus on the textbox after it has been added
-    
-  }
   deleteNote(index){
     let notesArr = this.state.notes;
     notesArr.splice(index, 1); //remove the note from the note array
@@ -100,7 +101,7 @@ class Note extends Component {
         });
   }
 
-  componentDidMount(){
+  componentDidMount(){//helps while the application is still loading to pull data
     //while mounting/pulling data from api : enable the spinner/loader below
     this.setState({ isLoading : true }); 
     setInterval( () => this.fetchTodos(), 1000);
