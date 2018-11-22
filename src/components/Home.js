@@ -11,8 +11,10 @@ class Home extends Component {
             user_name : '',
             user_email : '',
             password : '',
+            success_register : false,
             error : false,
-            url : 'http://localhost:4000/register'
+            register_url : 'http://localhost:4000/register',
+            login_url : 'http://localhost:4000/login'
         }
 
         //bind this.captureUserDetails to itself in order to avoid undefined .setState({}) method
@@ -20,13 +22,25 @@ class Home extends Component {
         this.captureUserDetails = this.captureUserDetails.bind(this); 
     };
 
+    myCallBack(){
+
+    }
+
+    handleUserAuthRedirect(auth_status){
+        if(auth_status){
+            return 
+        }
+    }
+
+
+
     handleRegistration (e) {
         e.preventDefault();
         if(this.state.user_name === '' || this.state.password === '' || this.state.user_email === ''){
             console.log('All fields are required');
             this.setState({error : true});
         }else{
-            fetch(this.state.url, {
+            fetch(this.state.register_url, {
                 method : this.state.method,
                 headers : {
                     "Content-Type": "application/json; charset=utf-8",
@@ -41,11 +55,37 @@ class Home extends Component {
                 return res.json()
             }).then(response => {//registration success
                 //do other things with the user data here..
-                console.log(response);
+                this.setState({success_register : true});
 
+                console.log(response);
             }).catch((oops) => {
                 console.log('Couldnot save user registration.. Try Again! ');
             })
+        }
+    }
+
+    handleLogin(e) {
+        e.preventDefault();
+        console.log(this.state.login_email, this.state.login_password);
+        if(this.state.login_email === '' || this.state.login_password === '') {
+            return
+        }else{
+            fetch(this.state.login_url, {
+                method : this.state.method,
+                headers : {
+                    "Content-Type": "application/json; charset=utf-8",
+                    "Accept": "application/json"
+                },
+                body : JSON.stringify({
+                    "email" : this.state.login_email,
+                    "password" : this.state.login_password
+                })
+            }).then((res) => res.json())
+            .then((response) => {
+                console.log(response);
+            }).catch((err) => {
+                console.log(`Login not successful ${err}`);
+            });
         }
     }
 
@@ -56,7 +96,6 @@ class Home extends Component {
     //in order to update the application state everytime a key is pressed
     captureUserDetails(event){
         //logs the event attribute of the html input field
-        console.log(event.target.value);
         //update the notetext as its changes
         // check it out: we get the evt.target.name (which will be either "user_name", "user_email" or "password")
         // and use it to target the key on our `state` object with the same name, using bracket syntax
