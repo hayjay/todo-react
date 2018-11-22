@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import logo from '../logo.svg';
+
 import '../App.css';
-import { ToastContainer, toast } from 'react-toastify';
+
 import 'react-toastify/dist/ReactToastify.css';
 class Note extends Component {
   
@@ -118,10 +118,6 @@ class Note extends Component {
 
     const f_w = {
       fontWeight : 'bold',
-    }
-    const title = {
-      backgroundColor : 'white',
-      padding : '40px'
     }
 
     //display a loading p tag if page is still loading trying to fetch data
