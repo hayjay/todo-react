@@ -11,27 +11,20 @@ class Home extends Component {
             user_name : '',
             user_email : '',
             password : '',
+            error : false,
             url : 'http://localhost:4000/register'
         }
+
+        //bind this.captureUserDetails to itself in order to avoid undefined .setState({}) method
+        //for catching and holding the value of the input field
+        this.captureUserDetails = this.captureUserDetails.bind(this); 
     };
-
-    // addUser() {
-    //     if(this.state.user_name === ''){return}
-    //     let userArray = this.state.user_details;
-
-    //     userArray.push({
-    //         user_name : this.state.user_name,
-    //         user_email : this.state.user_email,
-    //         user_password : this.state.user_password
-    //     })
-    // }
-
-    
 
     handleRegistration (e) {
         e.preventDefault();
         if(this.state.user_name === '' || this.state.password === '' || this.state.user_email === ''){
-            this.handleClick();
+            console.log('All fields are required');
+            this.setState({error : true});
         }else{
             fetch(this.state.url, {
                 method : this.state.method,
@@ -63,11 +56,12 @@ class Home extends Component {
     //in order to update the application state everytime a key is pressed
     captureUserDetails(event){
         //logs the event attribute of the html input field
-        console.log(event);
+        console.log(event.target.value);
         //update the notetext as its changes
         // check it out: we get the evt.target.name (which will be either "user_name", "user_email" or "password")
         // and use it to target the key on our `state` object with the same name, using bracket syntax
-        this.setState({ [event.target.name] : evt.target.value });
+        // we are doing this auto assign because our input field name attribute is thesame name with out state variable key declared
+        this.setState({ [event.target.name] : event.target.value });
     }
 
     render() {
@@ -81,9 +75,9 @@ class Home extends Component {
                     <label htmlFor='form-switch'><span>Register</span></label>
                 </form>
                 <form id='register-form' onSubmit={ this.handleRegistration }>
-                    <input onChange={this.captureUserDetails(user_name, null, null) } value={ this.state.user_name } type="text" placeholder="Username" required/>
-                    <input onChange={this.captureUserDetails(null, user_email, null) }  type="email" value={ this.state.user_email } placeholder="Email" required/>
-                    <input onChange={this.captureUserDetails(null, null, password) }  type="password" value={ this.state.password } placeholder="Password" required/>
+                    <input onChange={this.captureUserDetails } name="user_name" type="text" placeholder="Username" required/>
+                    <input onChange={this.captureUserDetails } name="user_email" type="email"  placeholder="Email" required/>
+                    <input onChange={this.captureUserDetails } name="password" type="password" placeholder="Password" required/>
                     <button  type='submit' onClick={this.handleRegistration.bind(this) } >Register</button>
                     <label htmlFor='form-switch'>Already Member ? Sign In Now..</label>
                 </form>
