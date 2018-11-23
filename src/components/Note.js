@@ -110,7 +110,7 @@ class Note extends Component {
 
   render() {
     let notes = this.state.notes;
-
+    
     const loaderStyle = {
       color : '#222',
       marginTop: '20px'

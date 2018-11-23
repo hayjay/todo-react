@@ -10,29 +10,30 @@ class Home extends Component {
             user_details : [],
             user_name : '',
             user_email : '',
+            login_email : '',
+            login_password : '',
             password : '',
             success_register : false,
             error : false,
             register_url : 'http://localhost:4000/register',
             login_url : 'http://localhost:4000/login'
         }
-
         //bind this.captureUserDetails to itself in order to avoid undefined .setState({}) method
         //for catching and holding the value of the input field
         this.captureUserDetails = this.captureUserDetails.bind(this); 
+        //to bind the value of the login input fields
+        // binding in render will create a function in each render , and that will cause a small performance issue, so its best practice to bind in class constructor instead
+        this.captureUserLoginDetails = this.captureUserLoginDetails.bind(this); 
+        //bind handleLogin function with this so that the app can get the updated this.state attribute
+        this.handleLogin = this.handleLogin.bind(this);
     };
 
-    myCallBack(){
-
-    }
 
     handleUserAuthRedirect(auth_status){
-        if(auth_status){
+        if(!auth_status){
             return 
         }
     }
-
-
 
     handleRegistration (e) {
         e.preventDefault();
@@ -66,27 +67,28 @@ class Home extends Component {
 
     handleLogin(e) {
         e.preventDefault();
+        alert('hi');
         console.log(this.state.login_email, this.state.login_password);
-        if(this.state.login_email === '' || this.state.login_password === '') {
-            return
-        }else{
-            fetch(this.state.login_url, {
-                method : this.state.method,
-                headers : {
-                    "Content-Type": "application/json; charset=utf-8",
-                    "Accept": "application/json"
-                },
-                body : JSON.stringify({
-                    "email" : this.state.login_email,
-                    "password" : this.state.login_password
-                })
-            }).then((res) => res.json())
-            .then((response) => {
-                console.log(response);
-            }).catch((err) => {
-                console.log(`Login not successful ${err}`);
-            });
-        }
+        // if(this.state.login_email === '' || this.state.login_password === '') {
+        //     return
+        // }else{
+        //     fetch(this.state.login_url, {
+        //         method : this.state.method,
+        //         headers : {
+        //             "Content-Type": "application/json; charset=utf-8",
+        //             "Accept": "application/json"
+        //         },
+        //         body : JSON.stringify({
+        //             "email" : this.state.login_email,
+        //             "password" : this.state.login_password
+        //         })
+        //     }).then((res) => res.json())
+        //     .then((response) => {
+        //         console.log(response);
+        //     }).catch((err) => {
+        //         console.log(`Login not successful ${err}`);
+        //     });
+        // }
     }
 
     // this function captures the value entered in the form input field
@@ -103,15 +105,21 @@ class Home extends Component {
         this.setState({ [event.target.name] : event.target.value });
     }
 
+    captureUserLoginDetails(event) {
+        // console.log(event.target.value);
+
+        this.setState({ [event.target.name] : event.target.value });
+    }
+
     render() {
         return (
             <div className="container">
             <input type='checkbox' id='form-switch'/>
-                <form id='login-form' >
-                    <input type="text" placeholder="Username" required/>
-                    <input type="password" placeholder="Password" required/>
+                <form id='login-form' onSubmit={ this.handleLogin } >
+                    Email : <br/><br/> <input type="text" name="login_email" onChange={ this.captureUserLoginDetails } placeholder="Email" required/>  <br/><br/>
+                    Password :  <br/><br/> <input type="password" name="login_password" onChange={ this.captureUserLoginDetails } placeholder="Password" required/> <br/><br/>
                     <button type='submit'>Login</button>
-                    <label htmlFor='form-switch'><span>Register</span></label>
+                    <label htmlFor='form-switch'> <span className="red">Register</span></label>
                 </form>
                 <form id='register-form' onSubmit={ this.handleRegistration }>
                     <input onChange={this.captureUserDetails } name="user_name" type="text" placeholder="Username" required/>
