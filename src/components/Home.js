@@ -14,9 +14,10 @@ class Home extends Component {
             login_password : '',
             password : '',
             success_register : false,
+            success_login : false,
             error : false,
             register_url : 'http://localhost:4000/register',
-            login_url : 'http://localhost:4000/login'
+            login_url : 'http://127.0.0.1:4000/login'
         }
         //bind this.captureUserDetails to itself in order to avoid undefined .setState({}) method
         //for catching and holding the value of the input field
@@ -57,38 +58,39 @@ class Home extends Component {
             }).then(response => {//registration success
                 //do other things with the user data here..
                 this.setState({success_register : true});
-
                 console.log(response);
             }).catch((oops) => {
-                console.log('Couldnot save user registration.. Try Again! ');
+                console.log(oops);
+                console.log('Could not save user registration.. Try Again! ');
             })
         }
     }
 
     handleLogin(e) {
         e.preventDefault();
-        alert('hi');
-        console.log(this.state.login_email, this.state.login_password);
-        // if(this.state.login_email === '' || this.state.login_password === '') {
-        //     return
-        // }else{
-        //     fetch(this.state.login_url, {
-        //         method : this.state.method,
-        //         headers : {
-        //             "Content-Type": "application/json; charset=utf-8",
-        //             "Accept": "application/json"
-        //         },
-        //         body : JSON.stringify({
-        //             "email" : this.state.login_email,
-        //             "password" : this.state.login_password
-        //         })
-        //     }).then((res) => res.json())
-        //     .then((response) => {
-        //         console.log(response);
-        //     }).catch((err) => {
-        //         console.log(`Login not successful ${err}`);
-        //     });
-        // }
+        if(this.state.login_email === '' || this.state.login_password === '') {
+            this.setState({ success_login : true });
+            console.log(`All fields are required ${this.state.success_login}`);
+            return 
+        }else{
+            fetch(this.state.login_url, {
+                method : this.state.method,
+                headers : {
+                    "Content-Type": "application/json; charset=utf-8",
+                    "Accept": "application/json"
+                },
+                body : JSON.stringify({
+                    "email" : this.state.login_email,
+                    "password" : this.state.login_password
+                })
+            }).then(res => res.json())
+            .then(response => {
+                console.log(response);
+            }).catch((err) => {
+                console.log(err);
+                console.log('User couldnt login.. Try Again! ');
+            });
+        }
     }
 
     // this function captures the value entered in the form input field
