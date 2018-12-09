@@ -29,7 +29,6 @@ class Home extends Component {
         this.handleLogin = this.handleLogin.bind(this);
     };
 
-
     handleUserAuthRedirect(auth_status){
         if(!auth_status){
             return 
