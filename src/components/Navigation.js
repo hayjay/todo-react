@@ -11,7 +11,7 @@ const Navigation = () => {
             <div className="nav-links">
                 <NavLink to="/" className="sub_note">Completed Todos <span className="white">(3)</span></NavLink>
                 <NavLink to="/" className="sub_note"> Pending Todos  <span className="white">(6)</span></NavLink>
-                <NavLink to="/" className="sub_note"> Log-out</NavLink>
+                <NavLink to="/" className="sub_note" onClick={this.handleLogout.bind(this)}> Log-out</NavLink>
             </div>
         </div>
    );

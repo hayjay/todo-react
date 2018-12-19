@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Link} from "react-router-dom";
-
 const Index = () => <h2>Home</h2>;
 const Todos = () => <h2>Todos</h2>;
 const Logout = () => <h2>Logout</h2>;

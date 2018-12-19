@@ -1,8 +1,13 @@
 import React, { Component } from "react";
 import '../Home.css'
+import AuthService from '../components/AuthService';
+import withAuth from '../components/withAuth';
+const Auth = new AuthService();
 
 class Home extends Component {
     constructor (props) {
+        this.Auth = new AuthService();
+        
         super(props);
 
         this.state = {
@@ -26,6 +31,8 @@ class Home extends Component {
         this.captureUserLoginDetails = this.captureUserLoginDetails.bind(this); 
         //bind handleLogin function with this so that the app can get the updated this.state attribute
         this.handleLogin = this.handleLogin.bind(this);
+        //bind login form submit
+        this.handleFormSubmit = this.handleFormSubmit.bind(this);
     };
 
 
@@ -65,31 +72,48 @@ class Home extends Component {
         }
     }
 
-    handleLogin(e) {
+    handleFormSubmit(e){
         e.preventDefault();
-        alert('hi');
-        console.log(this.state.login_email, this.state.login_password);
-        // if(this.state.login_email === '' || this.state.login_password === '') {
-        //     return
-        // }else{
-        //     fetch(this.state.login_url, {
-        //         method : this.state.method,
-        //         headers : {
-        //             "Content-Type": "application/json; charset=utf-8",
-        //             "Accept": "application/json"
-        //         },
-        //         body : JSON.stringify({
-        //             "email" : this.state.login_email,
-        //             "password" : this.state.login_password
-        //         })
-        //     }).then((res) => res.json())
-        //     .then((response) => {
-        //         console.log(response);
-        //     }).catch((err) => {
-        //         console.log(`Login not successful ${err}`);
-        //     });
-        // }
+      
+        this.Auth.login(this.state.login_email, this.state.login_password)
+            .then(res =>{
+               this.props.history.replace('/');
+            })
+            .catch(err =>{
+                alert(err);
+            })
     }
+    //handles redirection if we are alredy loggedin
+    componentWillMount(){
+        if(this.Auth.loggedIn())
+            this.props.history.replace('/');
+    }
+
+    // handleLogin(e) {
+    //     e.preventDefault();
+    //     alert('hi');
+    //     console.log(, d);
+    //     // if(this.state.login_email === '' || this.state.login_password === '') {
+    //     //     return
+    //     // }else{
+    //     //     fetch(this.state.login_url, {
+    //     //         method : this.state.method,
+    //     //         headers : {
+    //     //             "Content-Type": "application/json; charset=utf-8",
+    //     //             "Accept": "application/json"
+    //     //         },
+    //     //         body : JSON.stringify({
+    //     //             "email" : this.state.login_email,
+    //     //             "password" : this.state.login_password
+    //     //         })
+    //     //     }).then((res) => res.json())
+    //     //     .then((response) => {
+    //     //         console.log(response);
+    //     //     }).catch((err) => {
+    //     //         console.log(`Login not successful ${err}`);
+    //     //     });
+    //     // }
+    // }
 
     // this function captures the value entered in the form input field
     //  and could be called everytime a key is pressed in the text boss to 
